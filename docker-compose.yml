@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api:/usr/src/app
+    links:
+      - database
+    command: bash -c "bash ./wait-for-it.sh database:5432 -q -- diesel setup && cargo watch -x run"
+
+  database:
+    image: "postgres:latest"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_PASSWORD: Challenger
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+volumes:
+  pgdata: {}
