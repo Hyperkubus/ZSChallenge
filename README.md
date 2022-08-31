@@ -7,7 +7,6 @@ Zusammenstromen coding challenge
 > - getDetails
 >We would like to see how you solve this challenge using Rust, but you can also use any other typed language.
 
-Challenge was solved using rust as requested.
-Simply run:
-    docker-compose up
-After startup the API should be reachable under localhost:8080
+Challenge was solved using Rust as requested.
+
+After startup through `docker-compose up` the API should be reachable under `localhost:8080`.
