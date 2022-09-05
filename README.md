@@ -17,3 +17,4 @@ After startup the API should be reachable under `localhost:8080`.
 
 Improments for the future:
  - Use hashing for passwords instead of plaintext
+ - implement proper authentication
