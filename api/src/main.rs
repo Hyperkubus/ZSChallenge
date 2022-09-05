@@ -10,6 +10,8 @@ pub mod models;
 pub mod schema;
 pub mod auth;
 pub mod accounts;
+pub mod bankdetails;
+pub mod cardetails;
 
 pub fn establish_connection() -> PgConnection {
     dotenv().ok();
@@ -19,11 +21,6 @@ pub fn establish_connection() -> PgConnection {
 }
 
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello World"
-}
-
 fn main() {
     dotenv().ok();
     let environment = env::var("ENVIRONMENT").expect("ENVIRONMENT must be set");
@@ -32,11 +29,19 @@ fn main() {
     
     rocket::ignite()
     .mount("/", routes![
-        index,
         //auth::login,
         accounts::list,
-        accounts::get_account,
-        accounts::new_account
+        accounts::get,
+        accounts::new,
+        accounts::delete,
+        bankdetails::list,
+        bankdetails::get,
+        bankdetails::new,
+        bankdetails::delete,
+        cardetails::list,
+        cardetails::get,
+        cardetails::new,
+        cardetails::delete
     ])
     .launch();
 }

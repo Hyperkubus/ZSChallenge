@@ -17,7 +17,7 @@ pub fn list() -> Json<Vec<Account>> {
 }
 
 #[get("/account/<account_id>")]
-pub fn get_account(account_id: i32) -> Json<Account> {
+pub fn get(account_id: i32) -> Json<Account> {
     use crate::schema::accounts::dsl::*;
     let user_account = accounts
         .select(accounts::all_columns())
@@ -37,12 +37,12 @@ pub struct PostAccount {
 }
 
 #[post("/account", format = "json", data = "<post_account>")]
-pub fn new_account(post_account: Json<PostAccount>) {
+pub fn new(post_account: Json<PostAccount>) {
     let new_account = NewAccount {
         email: &post_account.email,
         password: &post_account.password,
         firstname: &post_account.firstname,
-        lastname: &post_account.lastname
+        lastname: &post_account.lastname,
     };
 
     diesel::insert_into(accounts::table)
@@ -51,3 +51,11 @@ pub fn new_account(post_account: Json<PostAccount>) {
         .expect("Error saving new account");
 }
 
+#[delete("/account/<account_id>")]
+pub fn delete(account_id: i32) -> Json<String> {
+    use crate::schema::accounts::dsl::*;
+    diesel::delete(accounts.filter(id.eq(account_id)))
+        .execute(&mut establish_connection())
+        .expect("Error deleting details");
+    Json(String::from("record deleted"))
+}
