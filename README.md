@@ -5,6 +5,7 @@ Zusammenstromen coding challenge
 > - A createAccount (The account should consist of details like email, car details and bank details)
 > - login
 > - getDetails
+>
 >We would like to see how you solve this challenge using Rust, but you can also use any other typed language.
 
 Challenge was solved using Rust as requested.
