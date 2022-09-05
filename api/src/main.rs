@@ -8,6 +8,7 @@ use std::env;
 
 pub mod models;
 pub mod schema;
+pub mod auth;
 pub mod accounts;
 
 pub fn establish_connection() -> PgConnection {
@@ -32,6 +33,7 @@ fn main() {
     rocket::ignite()
     .mount("/", routes![
         index,
+        //auth::login,
         accounts::list,
         accounts::get_account,
         accounts::new_account

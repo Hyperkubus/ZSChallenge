@@ -6,40 +6,41 @@ use rocket::*;
 use rocket_contrib::json::Json;
 use serde::Deserialize;
 
-#[get("/account")]
-pub fn list() -> Json<Vec<Account>> {
-    use crate::schema::accounts::dsl::*;
-    let user_accounts = accounts
+#[get("/bankdetail")]
+pub fn list() -> Json<Vec<BankDetails>> {
+    use crate::schema::bankdetails::dsl::*;
+    let bankdetail_list = bankdetails
         .filter(deleted_at.is_null())
-        .load::<Account>(&mut establish_connection())
+        .load::<BankDetail>(&mut establish_connection())
         .expect("Error fetching Account");
-    Json(user_accounts)
+    Json(bankdetail_list)
 }
 
-#[get("/account/<account_id>")]
-pub fn get_account(account_id: i32) -> Json<Account> {
-    use crate::schema::accounts::dsl::*;
-    let user_account = accounts
-        .select(accounts::all_columns())
-        .filter(id.eq(account_id))
+#[get("/bankdetail/<bankdetail_id>")]
+pub fn get(bankdetail_id: i32) -> Json<BankDetail> {
+    use crate::schema::bankdetail::dsl::*;
+    let bank_detail = bankdetails
+        .select(bankdetails::all_columns())
+        .filter(id.eq(bankdetail_id))
         .filter(deleted_at.is_null())
-        .get_result::<Account>(&mut establish_connection())
+        .get_result::<BankDetail>(&mut establish_connection())
         .expect("Error fetching Account");
-    Json(user_account)
+    Json(bank_detail)
 }
+
 
 #[derive(Deserialize)]
-pub struct PostAccount {
-    pub email: String,
-    pub password: String,
-    pub firstname: String,
-    pub lastname: String,
+pub struct PostBankDetails {
+    pub account_id: String,
+    pub holder: String,
+    pub iban: String,
+    pub bic: String,
 }
 
 #[post("/account", format = "json", data = "<post_account>")]
 pub fn new_account(post_account: Json<PostAccount>) {
     let new_account = NewAccount {
-        email: &post_account.email,
+        account_id: &post_account.email,
         password: &post_account.password,
         firstname: &post_account.firstname,
         lastname: &post_account.lastname
@@ -50,4 +51,3 @@ pub fn new_account(post_account: Json<PostAccount>) {
         .execute(&mut establish_connection())
         .expect("Error saving new account");
 }
-

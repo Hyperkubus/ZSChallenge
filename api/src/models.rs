@@ -22,3 +22,45 @@ pub struct NewAccount<'a> {
     pub firstname: &'a String,
     pub lastname: &'a String,
 }
+
+#[derive(Queryable, Serialize)]
+pub struct BankDetail {
+    pub id: i32,
+    pub account_id: i32,
+    pub holder: String,
+    pub iban: String,
+    pub bic: String,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: chrono::NaiveDateTime,
+    pub deleted_at: Option<chrono::NaiveDateTime>,
+}
+
+#[derive(Insertable, AsChangeset)]
+#[table_name="bankdetails"]
+pub struct NewBankDetail<'a> {
+    pub account_id: &'a i32,
+    pub holder: &'a String,
+    pub iban: &'a String,
+    pub bic: &'a String,
+}
+
+#[derive(Queryable, Serialize)]
+pub struct CarDetail {
+    pub id: i32,
+    pub account_id: i32,
+    pub owner: String,
+    pub plate: String,
+    pub registration: String,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: chrono::NaiveDateTime,
+    pub deleted_at: Option<chrono::NaiveDateTime>,
+}
+
+#[derive(Insertable, AsChangeset)]
+#[table_name="cardetails"]
+pub struct NewCarDetail<'a> {
+    pub account_id: &'a i32,
+    pub owner: &'a String,
+    pub plate: &'a String,
+    pub registration: &'a String,
+}
