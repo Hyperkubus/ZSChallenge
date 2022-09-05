@@ -9,4 +9,10 @@ Zusammenstromen coding challenge
 
 Challenge was solved using Rust as requested.
 
-After startup through `docker-compose up` the API should be reachable under `localhost:8080`.
+## Run
+ - copy `api/.env.docker` to `api/.env`
+ - run `docker-compose up`
+After startup the API should be reachable under `localhost:8080`.
+
+Improments for the future:
+ - Use hashing for passwords instead of plaintext
